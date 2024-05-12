@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student List</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <center><h1 class="mb-4">Student Management System</h1></center>
+        <!-- Button to Add Student -->
+        <div class="mb-3">
+            <a href="{% url 'add_student' %}" class="btn btn-success">Add New Student</a>
+        </div>
+        <!-- Search and filter form -->
+        <form action="" method="get" class="mb-4">
+            <!-- Search by name -->
+            <div class="form-group">
+                <input type="text" name="q" class="form-control" placeholder="Search by name..." value="{{ request.GET.q }}">
+            </div>
+            <!-- Filter by course -->
+            <div class="form-group">
+                <label><strong>Course:</strong></label>
+                <div>
+                    <input type="radio" name="course" value="Science" id="science" {% if request.GET.course == 'Science' %}checked{% endif %}>
+                    <label for="science">BSIT</label>
+
+                    <input type="radio" name="course" value="Arts" id="arts" {% if request.GET.course == 'Arts' %}checked{% endif %}>
+                    <label for="arts">BSCS</label>
+
+                    <input type="radio" name="course" value="Commerce" id="commerce" {% if request.GET.course == 'Commerce' %}checked{% endif %}>
+                    <label for="commerce">BSIS</label>
+
+                    <input type="radio" name="course" value="Commerce" id="commerce" {% if request.GET.course == 'Commerce' %}checked{% endif %}>
+                    <label for="commerce">BSDS</label>
+                </div>
+            </div>
+            <!-- Filter by gender -->
+            <div class="form-group">
+                <label><strong>Gender:</strong></label>
+                <div>
+                    <input type="radio" name="gender" value="Male" id="male" {% if request.GET.gender == 'Male' %}checked{% endif %}>
+                    <label for="male">Male</label>
+
+                    <input type="radio" name="gender" value="Female" id="female" {% if request.GET.gender == 'Female' %}checked{% endif %}>
+                    <label for="female">Female</label>
+                </div>
+            </div>
+            <!-- Filter by age range -->
+            <div class="form-group">
+                <label><strong>Age Range:</strong></label>
+                <input type="text" name="age_min" class="form-control" placeholder="Min Age" value="{{ request.GET.age_min }}">
+                <input type="text" name="age_max" class="form-control" placeholder="Max Age" value="{{ request.GET.age_max }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        
+        <center><div><h2>Student List:</h2></div></center>
+        <table class="table table-hover table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Course</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.first_name }} {{ student.last_name }}</td>
+                    <td>{{ student.course }}</td>
+                    <td>{{ student.gender }}</td>
+                    <td>{{ student.age }}</td>
+                    <td>
+                        <a href="{% url 'edit_student' student.id %}" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="{% url 'delete_student' student.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this student?');">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- Optional JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
