@@ -39,18 +39,17 @@ def add_student(request):
     return render(request, 'students/add_student.html', {'form': form})
 
 def edit_student(request, id):
-    student = get_object_or_404(Student, pk=id)  # Fetch the student or return 404 if not found
+    student = get_object_or_404(Student, pk=id)  
     if request.method == 'POST':
-        form = StudentForm(request.POST, instance=student)  # Pass instance to form
+        form = StudentForm(request.POST, instance=student)  
         if form.is_valid():
             form.save()
-            return redirect('student_list')  # Redirect to the student list after saving
+            return redirect('student_list')  
     else:
-        form = StudentForm(instance=student)  # Initialize form with student instance on GET request
+        form = StudentForm(instance=student)  
     return render(request, 'students/edit_student.html', {'form': form, 'student': student})
 
 def delete_student(request, id):
     student = get_object_or_404(Student, pk=id)
     student.delete()
-    # Redirect to the student list page or another appropriate page
-    return redirect('student_list')  # Ensure 'student_list' is the correct name for the list view
+    return redirect('student_list')  
